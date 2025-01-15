@@ -1,0 +1,47 @@
+# Miscellaneous
+djangostaging/*.class
+djangostaging/*.log
+djangostaging/*.pyc
+djangostaging/*.swp
+djangostaging/.DS_Store
+djangostaging/.atom/
+djangostaging/.build/
+djangostaging/.buildlog/
+djangostaging/.history
+djangostaging/.svn/
+djangostaging/.swiftpm/
+djangostaging/migrate_working_dir/
+
+# IntelliJ related
+djangostaging/*.iml
+djangostaging/*.ipr
+djangostaging/*.iws
+djangostaging/.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+djangostaging/**/doc/api/
+djangostaging/**/ios/Flutter/.last_build_id
+djangostaging/.dart_tool/
+djangostaging/.flutter-plugins
+djangostaging/.flutter-plugins-dependencies
+djangostaging/.pub-cache/
+djangostaging/.pub/
+djangostaging/build/
+djangostaging/env.json
+djangostaging/.env
+djangostaging/android/app/src/main/res/values/strings.xml
+# Symbolication related
+djangostaging/app.*.symbols
+
+# Obfuscation related
+djangostaging/app.*.map.json
+
+# Android Studio will place build artifacts here
+djangostaging/android/app/debug
+djangostaging/android/app/profile
+djangostaging/android/app/release
