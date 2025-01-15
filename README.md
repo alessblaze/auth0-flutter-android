@@ -13,7 +13,7 @@ hereby we are using a custom call back scheme.
 
 the app name in android terms is 'com.ams.flutterstaging.djangostaging'
 
-for this to work you have to create the string.xml at djangostaging\android\app\src\main\res\values\string.xml
+for this to work you have to create the string.xml at djangostaging/android/app/src/main/res/values/string.xml
 
 ```
 <?xml version="1.0" encoding="utf-8"?>
@@ -23,7 +23,7 @@ for this to work you have to create the string.xml at djangostaging\android\app\
 </resources>
 ```
 
-and add an .env at root of the project at djangostaging\.env
+and add an .env at root of the project at djangostaging/.env
 
 ```
 AUTH0_DOMAIN=Your Auth0 domain 
