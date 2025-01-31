@@ -46,16 +46,25 @@ class _AppDrawerState extends State<AppDrawer> {
       if (kDebugMode) {
         print("NAVIGATOR PUSH");
       }
+
+      final credentials = await AuthService.instance.getValidCredentials();
+      profile = credentials.user;
       await navigator.pushReplacement(
-          MaterialPageRoute(builder: (context) => const HomePage()));
+          MaterialPageRoute(builder: (context) => ProfilePage(user: profile!)));
+      credentials = null;  
+      profile = null;  
     }
 
     void signup() async {
       final navigator = Navigator.of(context);
       await AuthService.instance.signup();
       navigator.pop();
-      navigator.pushReplacement(
-          MaterialPageRoute(builder: (context) => const HomePage()));
+        Credentials? credentials = await AuthService.instance.getValidCredentials();
+      profile = credentials.user;
+      await navigator.pushReplacement(
+          MaterialPageRoute(builder: (context) => ProfilePage(user: profile!)));
+      credentials = null;
+      profile = null;
     }
 
     void logout() async {
