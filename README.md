@@ -75,3 +75,64 @@ probably like this below to handle platform specific schemes in auth service.
     print('Running on an unknown platform');
   }
 ```
+Now for getting https scheme to work. it could be a bit challanging for android.
+first generate keyfiles. ref:https://developer.android.com/studio/publish/app-signing
+then add corresponding key configs in 
+
+```
+android {
+  signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+        debug {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig = signingConfigs.release
+        }
+        debug {
+            signingConfig = signingConfigs.debug
+        }
+    }
+}
+```
+add the intent filter correctly
+
+```
+        <activity
+            android:name="com.auth0.android.provider.RedirectActivity"
+            android:exported="true"
+            tools:node="replace">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    //scheme is just app bundle name
+                    android:scheme="https"
+                    android:host="${auth0Domain}"
+                    android:pathPrefix="/android/${auth0Scheme}/callback" />
+            </intent-filter>
+        </activity>
+```
+do not put any callback url. it mostly automatically makes the url from .login() call.
+the documentations have now been pretty clear. but nevertheless.
+
+now we have to get sha256 of the keys. 
+```
+keytool -list -v -keystore <path-to-keystore> -alias <key-alias> -storepass <keystore-password> -keypass <key-password>
+
+```
+get the sha256 and go to Auth0Dashboard > Application > Settings > Advanced > Device Settings > add app bundle name and sha256.
+thus it will give the json with our signing key hashes in https://domain/.well-known/assetlinks.json. making android autoVerify to
+work and simply let the app handle the https callback.
