@@ -136,3 +136,5 @@ keytool -list -v -keystore <path-to-keystore> -alias <key-alias> -storepass <key
 get the sha256 and go to Auth0Dashboard > Application > Settings > Advanced > Device Settings > add app bundle name and sha256.
 thus it will give the json with our signing key hashes in https://domain/.well-known/assetlinks.json. making android autoVerify to
 work and simply let the app handle the https callback.
+
+NOTE: Thus it seems https callback looks a bit safer if platform is secure in android because it verifies the domain with the app signing key hash also we can just not allow the custom scheme callback as allowed urls making our signed app only to do the login.
