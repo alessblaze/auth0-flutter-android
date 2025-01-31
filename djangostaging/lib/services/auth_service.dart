@@ -53,4 +53,15 @@ class AuthService {
     profile = null;
     return;
   }
+  
+  Future<Credentials> getValidCredentials() async {
+    try {
+      return await auth0.credentialsManager.credentials();
+    } catch (e) {
+      if (kDebugMode) {
+        print('Get credentials error: $e');
+      }
+      rethrow;
+    }
+  }
 }
