@@ -33,3 +33,45 @@ AUTH0_AUDIENCE=Your API identifier on auth0
 that should be it. if you click login it should open a browser and then phew. it asks login then phew. you login.
 phew open the app phew. you are logged in. logout same way. the additional code is same with just lines changed to 
 work with Flutter 3.27.2 and Android Studio 2024.2.2.
+
+As they do not update the documentations correctly. we will actually see a garbage deeplink in the apps activity. so custom scheming for android is handled by auth0 android package. so we can actually change the androidmanifest and remove the intents. and add a replace intent like this to make deeplinking work.
+```
+        <activity
+            android:name="com.auth0.android.provider.RedirectActivity"
+            android:exported="true"
+            tools:node="replace">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="${auth0Scheme}"
+                    android:host="${auth0Domain}"
+                    android:pathPrefix="/android/${auth0Scheme}/callback" />
+            </intent-filter>
+        </activity>
+```
+also in the header we have to add this android tools. 
+
+```
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+```
+this will curb rest of unneccesary deeplinks and only keep direct custom scheme only.
+for handling https based auth on ios. dart provides funtions to check for platform. custom ios schemes and other platform schemes can also be handled with simple if else
+probably like this below to handle platform specific schemes in auth service.
+
+```
+  if (Platform.isAndroid) {
+    print('Running on Android');
+  } else if (Platform.isIOS) {
+    print('Running on iOS');
+  } else if (Platform.isLinux) {
+    print('Running on Linux');
+  } else if (Platform.isMacOS) {
+    print('Running on macOS');
+  } else if (Platform.isWindows) {
+    print('Running on Windows');
+  } else {
+    print('Running on an unknown platform');
+  }
+```
